@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Usage: boxcar <app_name>"
+  exit 1
+fi
+
+rails new "$1" \
+    --no-rc \
+    --skip-kamal \
+    --skip-jbuilder \
+    --skip-test \
+    --skip-system-test \
+    --skip-action-mailbox \
+    --skip-action-text \
+    --skip-active-storage \
+    --skip-sprockets \
+    --skip-i18n \
+    --skip-spring \
+    --javascript=bun \
+    --css=tailwind \
+    -d postgresql \
+    -m https://raw.githubusercontent.com/jaspermayone/boxcar/main/template.rb
