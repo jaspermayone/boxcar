@@ -8,20 +8,26 @@ say '   Creating StatsD initializer...', :cyan
 file 'config/initializers/statsd.rb', <<~RUBY
   # frozen_string_literal: true
 
-  StatsD.backend = if Rails.env.production?
-    StatsD::Instrument::Backends::UDPBackend.new(
-      ENV.fetch('STATSD_ADDR', 'localhost:8125'),
-      :datadog
-    )
-  else
-    StatsD::Instrument::Backends::LoggerBackend.new(Rails.logger)
-  end
+  return unless defined?(StatsD)
 
-  StatsD.prefix = Rails.application.class.module_parent_name.underscore
-  StatsD.default_tags = [
-    "env:\#{Rails.env}",
-    "app:\#{Rails.application.class.module_parent_name.underscore}"
-  ]
+  # Configure StatsD client
+  # In production, point to your StatsD server (e.g., Datadog agent)
+  # In development, logs to Rails logger
+  StatsD.singleton_client = StatsD::Instrument::Client.new(
+    sink: if Rails.env.production?
+            StatsD::Instrument::UDPSink.new(
+              ENV.fetch('STATSD_HOST', 'localhost'),
+              ENV.fetch('STATSD_PORT', 8125).to_i
+            )
+          else
+            StatsD::Instrument::LogSink.new(Rails.logger)
+          end,
+    prefix: Rails.application.class.module_parent_name.underscore,
+    default_tags: [
+      "env:\#{Rails.env}",
+      "app:\#{Rails.application.class.module_parent_name.underscore}"
+    ]
+  )
 RUBY
 
 say '   Creating Metrics module...', :cyan
@@ -109,15 +115,19 @@ file 'app/middleware/request_metrics.rb', <<~RUBY
   end
 RUBY
 
-say '   Adding middleware to application...', :cyan
-inject_into_file 'config/application.rb', after: "class Application < Rails::Application\n" do
-  "    config.middleware.use RequestMetrics\n"
-end
+say '   Creating middleware initializer...', :cyan
+initializer 'request_metrics.rb', <<~RUBY
+  # frozen_string_literal: true
+
+  require Rails.root.join('app/middleware/request_metrics')
+
+  Rails.application.config.middleware.use RequestMetrics
+RUBY
 
 say '   Adding to .env.development...', :cyan
-append_to_file '.env.development', "STATSD_ADDR=localhost:8125\n"
+append_to_file '.env.development', "STATSD_HOST=localhost\nSTATSD_PORT=8125\n"
 
 say 'StatsD metrics configured!', :green
 say '   Use Metrics.increment, .gauge, .measure, .histogram', :cyan
 say '   Request metrics automatically tracked', :cyan
-say '   Set STATSD_ADDR in production', :yellow
+say '   Set STATSD_HOST/STATSD_PORT in production', :yellow

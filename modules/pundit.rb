@@ -116,6 +116,10 @@ file 'app/policies/admin_policy.rb', <<~RUBY
       user&.super_admin_or_above?
     end
 
+    def pghero?
+      user&.admin_or_above?
+    end
+
     def access_admin_endpoints?
       user&.admin_or_above?
     end

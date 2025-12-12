@@ -1,6 +1,6 @@
 # 🚃 boxcar
 
-A production-ready, opinionated Rails 7+ application template with 24 integrated modules for authentication, authorization, monitoring, and more.
+A production-ready, opinionated Rails 7+ application template with 33 integrated modules for authentication, authorization, monitoring, and more.
 
 Inspired by [@nora](https://github.com/24c02)'s [thirdrail](https://github.com/24c02/thirdrail).
 
@@ -9,10 +9,10 @@ Inspired by [@nora](https://github.com/24c02)'s [thirdrail](https://github.com/2
 | Category | Modules |
 |----------|---------|
 | **Auth & Security** | Custom auth, Pundit, Lockbox encryption, rate limiting |
-| **Admin Dashboards** | Blazer, Flipper, Rails Performance, Mission Control |
+| **Admin Dashboards** | Blazer, Flipper, Rails Performance, GoodJob, PgHero |
 | **Data Management** | Soft deletes, audit trails, friendly URLs, full-text search |
 | **Observability** | Health checks, analytics, console auditing, StatsD metrics |
-| **Infrastructure** | Redis, PostgreSQL multi-db, Solid Queue, Tailwind CSS |
+| **Infrastructure** | Redis, PostgreSQL multi-db, GoodJob, Tailwind CSS |
 
 ## Quick Start
 
@@ -58,6 +58,8 @@ bin/dev
 - **BlindIndex** — Search encrypted fields without decryption
 - **InvisibleCaptcha** — Honeypot spam protection
 - **Strong Migrations** — Prevents dangerous migrations in production
+- **CSP & CORS** — Content Security Policy and cross-origin headers
+- **Security Scanning** — Bundler-audit and Brakeman in CI
 
 ### Admin Dashboards
 
@@ -68,7 +70,8 @@ All mounted under `/admin` with role-based access:
 | Blazer | `/admin/blazer` | admin+ | SQL-based analytics |
 | Flipper | `/admin/flipper` | super_admin+ | Feature flags |
 | Performance | `/admin/performance` | admin+ | Request monitoring |
-| Jobs | `/admin/jobs` | admin+ | Background job dashboard |
+| Jobs | `/admin/jobs` | admin+ | GoodJob dashboard |
+| PgHero | `/admin/pghero` | admin+ | PostgreSQL insights |
 | Console Audits | `/admin/console_audits` | super_admin+ | Rails console access logs |
 
 ### Data Features
@@ -81,8 +84,9 @@ All mounted under `/admin` with role-based access:
 
 ### Background Jobs
 
-- **Solid Queue** — Database-backed job processing (no Redis required for jobs)
-- **Mission Control** — Web UI for job monitoring and management
+- **GoodJob** — PostgreSQL-backed job processing with built-in dashboard
+- **Recurring Jobs** — Cron-like scheduling built-in
+- **Job Preservation** — Debug failed jobs with full history
 
 ### Monitoring & Analytics
 
@@ -90,12 +94,23 @@ All mounted under `/admin` with role-based access:
 - **Ahoy Analytics** — Visit and event tracking with email integration
 - **StatsD Metrics** — Request timing, custom gauges, Datadog-ready
 - **Console1984** — Encrypted audit logs for Rails console access
+- **Lograge** — Structured JSON logging with request ID tracing
+- **Logstop** — Automatic PII filtering from logs
 
 ### Infrastructure
 
 - **PostgreSQL** — Multi-database setup (primary, queue, cache, cable)
 - **Redis** — Sessions (db 2), cache (db 1), rate limiting (db 5)
 - **Tailwind CSS** — Pre-configured and ready to customize
+- **IdentityCache** — Blob-level caching for ActiveRecord
+- **PgHero** — PostgreSQL performance insights
+
+### Email
+
+- **Transactional Templates** — Welcome, password reset, email confirmation
+- **Email Previews** — Preview emails in development
+- **Premailer** — Automatic CSS inlining for email clients
+- **Mailkick** — Unsubscribe management
 
 ## Included Concerns
 

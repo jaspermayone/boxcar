@@ -2,6 +2,8 @@
 
 say 'Configuring PostgreSQL with multi-database setup...', :green
 
+gem 'pg'
+
 say '   Creating database.yml...', :cyan
 file 'config/database.yml', <<~YAML, force: true
   # PostgreSQL for all environments (with Row Level Security support)

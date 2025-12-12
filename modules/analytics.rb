@@ -13,7 +13,7 @@ after_bundle do
 end
 
 say '   Creating Ahoy initializer...', :cyan
-file 'config/initializers/ahoy.rb', <<~RUBY
+file 'config/initializers/ahoy.rb', <<~RUBY, force: true
   # frozen_string_literal: true
 
   class Ahoy::Store < Ahoy::DatabaseStore

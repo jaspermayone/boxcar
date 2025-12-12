@@ -6,11 +6,11 @@ gem 'console1984'
 gem 'audits1984'
 
 after_bundle do
-  say '   Running Console1984 installer...', :cyan
-  rails_command 'console1984:install'
+  say '   Running Console1984 migrations installer...', :cyan
+  rails_command 'console1984:install:migrations'
 
-  say '   Running Audits1984 installer...', :cyan
-  rails_command 'audits1984:install'
+  say '   Running Audits1984 migrations installer...', :cyan
+  rails_command 'audits1984:install:migrations'
 end
 
 say '   Creating Console1984 initializer...', :cyan

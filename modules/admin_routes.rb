@@ -39,11 +39,14 @@ route <<~RUBY
     # Rails Performance Dashboard (admin or above)
     mount RailsPerformance::Engine, at: 'performance', constraints: AdminConstraint.new(:rails_performance?) if defined?(RailsPerformance)
 
-    # Mission Control Jobs Dashboard (admin or above)
-    mount MissionControl::Jobs::Engine, at: 'jobs', constraints: AdminConstraint.new(:jobs?) if defined?(MissionControl::Jobs)
+    # GoodJob Dashboard (admin or above)
+    mount GoodJob::Engine, at: 'jobs', constraints: AdminConstraint.new(:jobs?) if defined?(GoodJob)
 
     # Console Audits (super_admin or above)
     mount Audits1984::Engine, at: 'console_audits', constraints: AdminConstraint.new(:console_audits?) if defined?(Audits1984)
+
+    # PgHero PostgreSQL Dashboard (admin or above)
+    mount PgHero::Engine, at: 'pghero', constraints: AdminConstraint.new(:pghero?) if defined?(PgHero)
 
     resources :users
   end

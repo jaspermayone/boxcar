@@ -21,6 +21,12 @@ def apply_module(name, tasks = [])
 end
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Remove Rails 8 defaults we'll replace
+# ═══════════════════════════════════════════════════════════════════════════════
+
+remove_file 'config/initializers/content_security_policy.rb'
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Base Setup
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -28,6 +34,7 @@ apply_module('base_gems')
 apply_module('credentials')
 apply_module('development_tools')
 apply_module('github')
+apply_module('logging')
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Database & Infrastructure
@@ -35,6 +42,14 @@ apply_module('github')
 
 apply_module('database')
 apply_module('redis')
+apply_module('caching')
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Security
+# ═══════════════════════════════════════════════════════════════════════════════
+
+apply_module('security')
+apply_module('csp')
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Authentication & Authorization
@@ -43,20 +58,20 @@ apply_module('redis')
 apply_module('public_identifiable')
 apply_module('auth', ['run `rails db:migrate`'])
 apply_module('pundit')
-apply_module('security')
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Frontend
+# Frontend & SEO
 # ═══════════════════════════════════════════════════════════════════════════════
 
 gem 'tailwindcss-rails'
 apply_module('tailwind')
+apply_module('seo')
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Background Jobs & Feature Flags
 # ═══════════════════════════════════════════════════════════════════════════════
 
-apply_module('solid_queue')
+apply_module('good_job')
 apply_module('flipper')
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -66,6 +81,7 @@ apply_module('flipper')
 apply_module('blazer')
 apply_module('rails_performance')
 apply_module('console1984')
+apply_module('pghero')
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Monitoring & Analytics
@@ -86,11 +102,12 @@ apply_module('pg_search')
 apply_module('aasm')
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Pagination & Email
+# Email & Pagination
 # ═══════════════════════════════════════════════════════════════════════════════
 
 apply_module('kaminari')
 apply_module('mailkick')
+apply_module('email')
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Admin Routes (must be last - depends on all admin modules)

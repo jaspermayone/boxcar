@@ -4,10 +4,8 @@ say 'Setting up Rails Performance monitoring...', :green
 
 gem 'rails_performance'
 
-after_bundle do
-  say '   Running Rails Performance installer...', :cyan
-  rails_command 'rails_performance:install'
-end
+# Note: rails_performance doesn't have an install generator
+# We create the initializer manually below
 
 say '   Creating Rails Performance initializer...', :cyan
 file 'config/initializers/rails_performance.rb', <<~RUBY

@@ -21,7 +21,7 @@ file 'config/initializers/blazer.rb', <<~RUBY
 RUBY
 
 say '   Creating Blazer config...', :cyan
-file 'config/blazer.yml', <<~YAML
+file 'config/blazer.yml', <<~YAML, force: true
   # Blazer configuration
   # https://github.com/ankane/blazer
 

@@ -5,17 +5,13 @@ say '   Adding bcrypt gem...', :cyan
 
 gem 'bcrypt', '~> 3.1'
 
-say '   Generating User model...', :cyan
-generate :model, 'User email:string:uniq password_digest:string role:integer'
+# Generate models after bundle install
+after_bundle do
+  say '   Generating User model...', :cyan
+  generate :model, 'User email:string:uniq password_digest:string role:integer'
 
-# Add index for email lookup
-begin
-  inject_into_file "db/migrate/#{Dir.entries('db/migrate').grep(/create_users/).first}",
-                   after: "t.string :email\n" do
-  "      t.index :email, unique: true\n"
-end
-rescue StandardError
-  nil
+  say '   Generating Session model...', :cyan
+  generate :model, 'Session user:references token:string:uniq ip_address:string user_agent:string'
 end
 
 # User model with has_secure_password and roles
@@ -47,9 +43,6 @@ file 'app/models/user.rb', <<~RUBY, force: true
     end
   end
 RUBY
-
-say '   Generating Session model...', :cyan
-generate :model, 'Session user:references token:string:uniq ip_address:string user_agent:string'
 
 file 'app/models/session.rb', <<~RUBY, force: true
   class Session < ApplicationRecord

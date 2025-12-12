@@ -10,7 +10,18 @@ gem_group :development do
   gem 'actual_db_schema'
   gem 'annotaterb'
   gem 'letter_opener_web'
+  gem 'rack-mini-profiler', require: false
 end
+
+# Rack Mini Profiler configuration
+initializer 'rack_mini_profiler.rb', <<~RUBY
+  # frozen_string_literal: true
+
+  if defined?(Rack::MiniProfiler) && Rails.env.development?
+    require 'rack-mini-profiler'
+    Rack::MiniProfilerRails.initialize!(Rails.application)
+  end
+RUBY
 
 # Bullet configuration for N+1 query detection
 initializer 'bullet.rb', <<~RUBY

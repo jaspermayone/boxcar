@@ -18,12 +18,13 @@ initializer 'session_store.rb', <<~RUBY
   # frozen_string_literal: true
 
   # Use Redis for session storage
-  Rails.application.config.session_store :redis_store,
-    servers: ENV.fetch('REDIS_URL') { 'redis://localhost:6379/2/session' },
-    expire_after: 90.minutes,
+  Rails.application.config.session_store :redis_session_store,
     key: "_\#{Rails.application.class.module_parent_name.underscore}_session",
-    threadsafe: true,
-    signed: true
+    redis: {
+      expire_after: 90.minutes,
+      key_prefix: 'session:',
+      url: ENV.fetch('REDIS_URL') { 'redis://localhost:6379/2' }
+    }
 RUBY
 
 say '   Configuring Rack::Attack...', :cyan
@@ -32,10 +33,8 @@ initializer 'rack_attack.rb', <<~RUBY
 
   # Configure Rack Attack for rate limiting
   class Rack::Attack
-    # Use Redis for Rack Attack storage
-    Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(
-      url: ENV.fetch('REDIS_URL') { 'redis://localhost:6379/5' }
-    )
+    # Use Rails.cache (backed by Redis in production)
+    Rack::Attack.cache.store = Rails.cache
 
     # Throttle all requests by IP (300 req/5 minutes)
     throttle('req/ip', limit: 300, period: 5.minutes) do |req|
