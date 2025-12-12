@@ -90,6 +90,11 @@ inject_into_class 'app/controllers/application_controller.rb', 'ApplicationContr
   include Trackable
 RUBY
 
+say '   Configuring ApplicationMailer for tracking...', :cyan
+inject_into_file 'app/mailers/application_mailer.rb', after: "class ApplicationMailer < ActionMailer::Base\n" do
+  "  has_history\n  utm_params\n"
+end
+
 say 'Ahoy analytics configured!', :green
 say '   Track events: ahoy.track "Event Name", key: value', :cyan
 say '   Email tracking enabled for opens and clicks', :cyan
