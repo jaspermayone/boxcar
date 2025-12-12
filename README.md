@@ -14,6 +14,13 @@ Inspired by [@nora](https://github.com/24c02)'s [thirdrail](https://github.com/2
 | **Observability** | Health checks, analytics, console auditing, StatsD metrics |
 | **Infrastructure** | Redis, PostgreSQL multi-db, GoodJob, Tailwind CSS |
 
+## Installation
+
+```bash
+brew tap jaspermayone/tap
+brew install boxcar
+```
+
 ## Quick Start
 
 ```bash
