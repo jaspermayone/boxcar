@@ -65,7 +65,7 @@ bin/dev
 - **BlindIndex** — Search encrypted fields without decryption
 - **InvisibleCaptcha** — Honeypot spam protection
 - **Strong Migrations** — Prevents dangerous migrations in production
-- **CSP & CORS** — Content Security Policy and cross-origin headers
+- **CSP & CORS** — Optional Content Security Policy (disabled by default) and cross-origin headers
 - **Security Scanning** — Bundler-audit and Brakeman in CI
 
 ### Admin Dashboards
