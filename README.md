@@ -77,7 +77,7 @@ All mounted under `/admin` with role-based access:
 | Blazer | `/admin/blazer` | admin+ | SQL-based analytics |
 | Flipper | `/admin/flipper` | super_admin+ | Feature flags |
 | Performance | `/admin/performance` | admin+ | Request monitoring |
-| Jobs | `/admin/jobs` | admin+ | Solid Queue dashboard |
+| Jobs | `/admin/jobs` | admin+ | GoodJob dashboard |
 | PgHero | `/admin/pghero` | admin+ | PostgreSQL insights |
 | Console Audits | `/admin/console_audits` | super_admin+ | Rails console access logs |
 
@@ -91,9 +91,9 @@ All mounted under `/admin` with role-based access:
 
 ### Background Jobs
 
-- **Solid Queue** — PostgreSQL-backed job processing with built-in dashboard
-- **Recurring Jobs** — Cron-like scheduling support
-- **Job Monitoring** — Track and debug failed jobs with full history
+- **GoodJob** — PostgreSQL-backed job processing with built-in dashboard
+- **Recurring Jobs** — Cron-like scheduling built-in
+- **Job Preservation** — Debug failed jobs with full history
 
 ### Monitoring & Analytics
 

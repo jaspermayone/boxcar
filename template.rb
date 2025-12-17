@@ -71,7 +71,7 @@ apply_module('seo')
 # Background Jobs & Feature Flags
 # ═══════════════════════════════════════════════════════════════════════════════
 
-apply_module('solid_queue')
+apply_module('good_job')
 apply_module('flipper')
 
 # ═══════════════════════════════════════════════════════════════════════════════
