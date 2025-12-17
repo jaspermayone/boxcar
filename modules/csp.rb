@@ -5,41 +5,42 @@ say 'Setting up security hardening...', :green
 gem 'rack-cors'
 # bundler-audit included by Rails 8
 
-say '   Configuring Content Security Policy...', :cyan
+say '   Skipping strict Content Security Policy (configured as permissive)...', :cyan
 initializer 'content_security_policy.rb', <<~RUBY
   # frozen_string_literal: true
 
-  # Define an application-wide content security policy
+  # Content Security Policy (CSP) is disabled by default for flexibility.
+  # Uncomment and configure the policy below if you need stricter security controls.
   # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
-  Rails.application.configure do
-    config.content_security_policy do |policy|
-      policy.default_src :self
-      policy.font_src    :self, :data, 'https://fonts.gstatic.com'
-      policy.img_src     :self, :data, :blob
-      policy.object_src  :none
-      policy.script_src  :self
-      policy.style_src   :self, :unsafe_inline, 'https://fonts.googleapis.com'
-      policy.frame_ancestors :self
-      policy.base_uri    :self
-      policy.form_action :self
-
-      # Allow connections to same origin and websockets
-      policy.connect_src :self, :wss
-
-      # Report violations to your error tracking service
-      # policy.report_uri '/csp-report'
-    end
-
-    # Generate nonce for inline scripts/styles
-    # Use <%= csp_meta_tag %> in your layout and
-    # <%= javascript_tag nonce: true %> for inline scripts
-    config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-    config.content_security_policy_nonce_directives = %w[script-src style-src]
-
-    # Report CSP violations without enforcing (useful for rollout)
-    # config.content_security_policy_report_only = true
-  end
+  # Rails.application.configure do
+  #   config.content_security_policy do |policy|
+  #     policy.default_src :self
+  #     policy.font_src    :self, :data, 'https://fonts.gstatic.com'
+  #     policy.img_src     :self, :data, :blob
+  #     policy.object_src  :none
+  #     policy.script_src  :self
+  #     policy.style_src   :self, :unsafe_inline, 'https://fonts.googleapis.com'
+  #     policy.frame_ancestors :self
+  #     policy.base_uri    :self
+  #     policy.form_action :self
+  #
+  #     # Allow connections to same origin and websockets
+  #     policy.connect_src :self, :wss
+  #
+  #     # Report violations to your error tracking service
+  #     # policy.report_uri '/csp-report'
+  #   end
+  #
+  #   # Generate nonce for inline scripts/styles
+  #   # Use <%= csp_meta_tag %> in your layout and
+  #   # <%= javascript_tag nonce: true %> for inline scripts
+  #   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
+  #   config.content_security_policy_nonce_directives = %w[script-src style-src]
+  #
+  #   # Report CSP violations without enforcing (useful for rollout)
+  #   # config.content_security_policy_report_only = true
+  # end
 RUBY
 
 say '   Configuring CORS...', :cyan
@@ -83,12 +84,14 @@ initializer 'secure_headers.rb', <<~RUBY
   }
 RUBY
 
-say '   Adding CSP meta tag to layout...', :cyan
-inject_into_file 'app/views/layouts/application.html.erb', after: "<%= csrf_meta_tags %>\n" do
-  "    <%= csp_meta_tag %>\n"
-end
+say '   Skipping CSP meta tag (CSP is disabled by default)...', :cyan
+# CSP meta tag is not added since CSP is disabled by default
+# Uncomment below if you enable CSP in the initializer
+# inject_into_file 'app/views/layouts/application.html.erb', after: "<%= csrf_meta_tags %>\n" do
+#   "    <%= csp_meta_tag %>\n"
+# end
 
 say 'Security hardening configured!', :green
-say '   CSP headers enabled (review policy for your needs)', :cyan
+say '   CSP headers disabled by default (review initializer to enable)', :cyan
 say '   CORS configured for API routes', :cyan
 say '   Run `bundle audit` to check for vulnerabilities', :yellow
