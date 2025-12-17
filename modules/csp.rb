@@ -5,7 +5,7 @@ say 'Setting up security hardening...', :green
 gem 'rack-cors'
 # bundler-audit included by Rails 8
 
-say '   Skipping strict Content Security Policy (configured as permissive)...', :cyan
+say '   Content Security Policy disabled by default (can be enabled in initializer)...', :cyan
 initializer 'content_security_policy.rb', <<~RUBY
   # frozen_string_literal: true
 
@@ -84,7 +84,7 @@ initializer 'secure_headers.rb', <<~RUBY
   }
 RUBY
 
-say '   Skipping CSP meta tag (CSP is disabled by default)...', :cyan
+say '   Skipping CSP meta tag...', :cyan
 # CSP meta tag is not added since CSP is disabled by default
 # Uncomment below if you enable CSP in the initializer
 # inject_into_file 'app/views/layouts/application.html.erb', after: "<%= csrf_meta_tags %>\n" do
