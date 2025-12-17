@@ -23,15 +23,17 @@ after_bundle do
   rails_command 'solid_queue:install'
 
   say '   Adding Solid Queue to Procfile.dev...', :cyan
-  # Ensure Procfile.dev exists and has the worker line
+  # Ensure Procfile.dev exists and has the worker line (without duplicates)
+  worker_line = "worker: bin/rails solid_queue:start\n"
   if File.exist?('Procfile.dev')
-    append_to_file 'Procfile.dev', "worker: bin/rails solid_queue:start\n"
+    content = File.read('Procfile.dev')
+    unless content.include?('solid_queue:start')
+      append_to_file 'Procfile.dev', worker_line
+    end
   else
-    create_file 'Procfile.dev', <<~PROCFILE
-      web: bin/rails server
-      css: bin/rails tailwindcss:watch
-      worker: bin/rails solid_queue:start
-    PROCFILE
+    # Procfile.dev doesn't exist yet - this is unusual since tailwindcss:install should create it
+    # Create with just the worker line; web and css should already be configured by tailwind module
+    create_file 'Procfile.dev', worker_line
   end
 end
 
