@@ -2,7 +2,8 @@
 
 say 'Configuring PostgreSQL with multi-database setup...', :green
 
-gem 'pg'
+# Only add pg gem if not already present (Rails 8+ includes it by default)
+gem 'pg' unless File.read('Gemfile').match?(/gem ['"]pg['"]/) rescue false
 
 say '   Creating database.yml...', :cyan
 file 'config/database.yml', <<~YAML, force: true
