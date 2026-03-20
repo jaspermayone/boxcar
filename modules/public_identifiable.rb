@@ -9,13 +9,20 @@ file 'config/initializers/encoded_ids.rb', <<~RUBY
 
   EncodedIds.configure do |config|
     # Salt from credentials (generate with: SecureRandom.hex(32))
-    config.salt = Rails.application.credentials.dig(:encoded_ids, :salt) || Rails.application.secret_key_base
+    # rails credentials:edit → add: hashid: { salt: "..." }
+    config.hashid_salt = Rails.application.credentials.dig(:hashid, :salt) || ENV["HASHID_SALT"]
 
-    # Minimum length of the encoded ID (default: 6)
-    config.min_length = 6
+    # Minimum length of the hash portion (before prefix)
+    config.hashid_min_length = 8
 
-    # Custom alphabet (URL-safe, lowercase for consistency)
-    config.alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+    # Character set for hash generation (lowercase + numbers)
+    config.hashid_alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+
+    # Separator between prefix and hash (e.g. usr_abc123)
+    config.separator = "_"
+
+    # false = /users/abc123 (cleaner), true = /users/usr_abc123 (Stripe style)
+    config.use_prefix_in_routes = false
   end
 RUBY
 
