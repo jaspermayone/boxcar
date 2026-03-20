@@ -17,8 +17,8 @@ end
 # User model with has_secure_password and roles
 file 'app/models/user.rb', <<~RUBY, force: true
   class User < ApplicationRecord
-    include PublicIdentifiable
-    set_public_id_prefix :usr
+    include EncodedIds::HashidIdentifiable
+    set_encoded_id_prefix :usr
 
     has_secure_password
 
