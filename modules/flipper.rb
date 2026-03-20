@@ -9,7 +9,7 @@ gem 'flipper-active_support_cache_store'
 
 after_bundle do
   say '   Running Flipper setup...', :cyan
-  rails_command 'generate flipper:setup'
+  rails_command 'generate flipper:setup --skip'
 end
 
 say '   Creating Flipper initializer...', :cyan

@@ -6,7 +6,7 @@ gem 'blazer'
 
 after_bundle do
   say '   Running Blazer install...', :cyan
-  rails_command 'generate blazer:install'
+  rails_command 'generate blazer:install --skip'
 end
 
 say '   Creating Blazer initializer...', :cyan

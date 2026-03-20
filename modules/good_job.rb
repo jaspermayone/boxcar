@@ -58,7 +58,7 @@ RUBY
 
 after_bundle do
   say '   Installing GoodJob...', :cyan
-  rails_command 'good_job:install'
+  rails_command 'generate good_job:install --skip'
 
   say '   Adding GoodJob to Procfile.dev...', :cyan
   append_to_file 'Procfile.dev', "jobs: bundle exec good_job start\n"
