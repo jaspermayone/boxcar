@@ -68,7 +68,7 @@ file 'CLAUDE.md', <<~MARKDOWN
   set_encoded_id_prefix :usr  # results in IDs like usr_abc123
   ```
 
-  The salt lives in `rails credentials:edit` under `encoded_ids.salt`.
+  The salt lives in `rails credentials:edit` under `hashid.salt` (or `ENV["HASHID_SALT"]`).
 
   ---
 
