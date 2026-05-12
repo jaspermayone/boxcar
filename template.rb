@@ -33,6 +33,7 @@ remove_file 'config/initializers/content_security_policy.rb'
 apply_module('base_gems')
 apply_module('credentials')
 apply_module('development_tools')
+apply_module('herb')
 apply_module('github')
 apply_module('logging')
 
