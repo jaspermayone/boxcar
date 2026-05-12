@@ -126,6 +126,7 @@ apply_module('claude_md')
 # ═══════════════════════════════════════════════════════════════════════════════
 
 after_bundle do
+  run 'bundle config set --local frozen true'
   say '   Creating initial commit...', :cyan
   git add: '.'
   git commit: '-m "init from boxcar"'
