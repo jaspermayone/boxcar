@@ -13,6 +13,7 @@ Inspired by [@nora](https://github.com/24c02)'s [thirdrail](https://github.com/2
 | **Data Management** | Soft deletes, audit trails, friendly URLs, full-text search |
 | **Observability** | Health checks, analytics, console auditing, StatsD metrics |
 | **Infrastructure** | Redis, PostgreSQL multi-db, GoodJob, Tailwind CSS |
+| **Code Quality** | Herb ERB linting & formatting (with CI workflow) |
 
 ## Installation
 
